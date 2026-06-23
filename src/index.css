@@ -1,0 +1,249 @@
+/* =========================================================
+   CommunityHub — identité visuelle
+   Concept : un tableau d'affichage communautaire / affiche
+   d'événement. Palette éditoriale chaude, accent corail vif
+   (« ça se passe maintenant »), motif ticket sur les cartes.
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Palette */
+  --ch-ink: #1a1714;          /* encre presque noire, chaude */
+  --ch-ink-soft: #4a443d;
+  --ch-paper: #f6f2ea;        /* papier crème */
+  --ch-paper-2: #efe9dd;
+  --ch-coral: #e8503a;        /* accent principal : corail vif */
+  --ch-coral-dark: #c63d28;
+  --ch-teal: #1f7a6d;         /* accent secondaire : vert profond */
+  --ch-gold: #d99a2b;         /* touche dorée pour le premium */
+  --ch-line: #ddd4c5;         /* filets / bordures discrètes */
+  --ch-white: #fffdf9;
+
+  /* Typo */
+  --ch-display: 'Fraunces', Georgia, serif;
+  --ch-body: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: var(--ch-paper);
+  color: var(--ch-ink);
+  font-family: var(--ch-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Titres en serif caractérielle */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--ch-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ch-ink);
+}
+
+.display-5, .display-6 {
+  font-family: var(--ch-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Structure ---------- */
+.ch-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.ch-app main { flex: 1; }
+
+/* ---------- Navbar ---------- */
+.ch-navbar {
+  background: var(--ch-ink);
+  border-bottom: 3px solid var(--ch-coral);
+}
+.ch-navbar .navbar-brand {
+  font-family: var(--ch-display);
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: -0.02em;
+}
+.ch-brand-accent { color: var(--ch-coral); }
+.ch-navbar .nav-link {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: rgba(255, 253, 249, 0.78) !important;
+  transition: color 0.15s ease;
+}
+.ch-navbar .nav-link:hover,
+.ch-navbar .nav-link.active {
+  color: var(--ch-white) !important;
+}
+.ch-navbar .nav-link.active {
+  text-decoration: underline;
+  text-decoration-color: var(--ch-coral);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+.ch-navbar .navbar-text { color: rgba(255, 253, 249, 0.7); font-size: 0.9rem; }
+
+/* ---------- Hero : affiche ---------- */
+.ch-hero {
+  position: relative;
+  background: var(--ch-ink);
+  color: var(--ch-white);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  border: 1px solid var(--ch-ink);
+}
+.ch-hero::before {
+  /* trame d'affiche : fines diagonales corail */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0,
+    transparent 22px,
+    rgba(232, 80, 58, 0.08) 22px,
+    rgba(232, 80, 58, 0.08) 24px
+  );
+  pointer-events: none;
+}
+.ch-hero > * { position: relative; z-index: 1; }
+.ch-hero .ch-brand-accent { color: var(--ch-coral); }
+.ch-hero .lead { color: rgba(255, 253, 249, 0.82); }
+
+/* ---------- Cartes : motif ticket ---------- */
+.ch-card {
+  background: var(--ch-white);
+  border: 1px solid var(--ch-line);
+  border-radius: 0.85rem;
+  box-shadow: 0 1px 0 var(--ch-line);
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.ch-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(26, 23, 20, 0.10);
+}
+.ch-card .card-title {
+  font-family: var(--ch-display);
+  font-weight: 600;
+}
+
+/* Filet d'accent (côté gauche) sur les cartes d'événement */
+.ch-event-card {
+  position: relative;
+  overflow: hidden;
+}
+.ch-event-card::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--ch-coral);
+}
+
+/* ---------- Badges ---------- */
+.badge {
+  font-family: var(--ch-body);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  padding: 0.35em 0.7em;
+}
+
+/* ---------- Boutons ---------- */
+.btn {
+  font-weight: 600;
+  border-radius: 0.55rem;
+  letter-spacing: 0.005em;
+}
+.btn-primary {
+  --bs-btn-bg: var(--ch-coral);
+  --bs-btn-border-color: var(--ch-coral);
+  --bs-btn-hover-bg: var(--ch-coral-dark);
+  --bs-btn-hover-border-color: var(--ch-coral-dark);
+  --bs-btn-active-bg: var(--ch-coral-dark);
+  --bs-btn-active-border-color: var(--ch-coral-dark);
+  --bs-btn-disabled-bg: var(--ch-coral);
+  --bs-btn-disabled-border-color: var(--ch-coral);
+}
+.btn-outline-primary {
+  --bs-btn-color: var(--ch-coral-dark);
+  --bs-btn-border-color: var(--ch-coral);
+  --bs-btn-hover-bg: var(--ch-coral);
+  --bs-btn-hover-border-color: var(--ch-coral);
+  --bs-btn-active-bg: var(--ch-coral-dark);
+}
+.btn-light {
+  --bs-btn-bg: var(--ch-white);
+  --bs-btn-border-color: var(--ch-white);
+  --bs-btn-color: var(--ch-ink);
+  --bs-btn-hover-bg: var(--ch-paper-2);
+  --bs-btn-hover-border-color: var(--ch-paper-2);
+}
+
+a {
+  color: var(--ch-coral-dark);
+  text-underline-offset: 2px;
+}
+a:hover { color: var(--ch-coral); }
+
+/* ---------- Filtres / encarts ---------- */
+.ch-panel {
+  background: var(--ch-paper-2);
+  border: 1px solid var(--ch-line);
+  border-radius: 0.85rem;
+}
+
+/* Eyebrow : petite étiquette au-dessus des titres */
+.ch-eyebrow {
+  font-family: var(--ch-body);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ch-coral-dark);
+}
+
+/* ---------- Form ---------- */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--ch-coral);
+  box-shadow: 0 0 0 0.18rem rgba(232, 80, 58, 0.18);
+}
+
+/* ---------- Onglets ---------- */
+.nav-tabs {
+  border-bottom: 2px solid var(--ch-line);
+}
+.nav-tabs .nav-link {
+  font-weight: 600;
+  color: var(--ch-ink-soft);
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+}
+.nav-tabs .nav-link.active {
+  color: var(--ch-coral-dark);
+  background: transparent;
+  border-bottom-color: var(--ch-coral);
+}
+
+/* ---------- Footer ---------- */
+.ch-footer {
+  color: var(--ch-ink-soft);
+  border-top: 1px solid var(--ch-line);
+  font-family: var(--ch-body);
+}
+
+/* ---------- Accessibilité ---------- */
+:focus-visible {
+  outline: 2px solid var(--ch-coral);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+  .ch-card:hover { transform: none; }
+}

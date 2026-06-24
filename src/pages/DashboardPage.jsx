@@ -115,6 +115,10 @@ export default function DashboardPage() {
               <p className="mb-1"><strong>Email :</strong> {user.email}</p>
               <p className="mb-0"><strong>Ville :</strong> {user.city}</p>
 
+              <Button as={Link} to="/profile/edit" variant="outline-primary" size="sm" className="mt-3">
+                Modifier mon profil
+              </Button>
+
               {/* Gains organisateur */}
               {(user.total_earnings != null || user.earnings != null) && (
                 <div className="mt-3 p-3 bg-light rounded">

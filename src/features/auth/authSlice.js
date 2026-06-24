@@ -39,6 +39,36 @@ export const fetchMe = createAsyncThunk(
   }
 );
 
+// Modifier le profil de l'utilisateur connecté.
+// Le statut n'est jamais envoyé (l'utilisateur ne peut pas le modifier).
+// Si le mot de passe est vide, il n'est pas changé côté serveur.
+export const updateProfile = createAsyncThunk(
+  'auth/updateProfile',
+  async (formData, { dispatch, rejectWithValue }) => {
+    try {
+      const payload = {
+        pseudo: formData.pseudo,
+        email: formData.email,
+        avatar: formData.avatar || '',
+        lastname: formData.lastname,
+        firstname: formData.firstname,
+        birthdate: formData.birthdate,
+        address: formData.address,
+        postal_code: formData.postal_code,
+        city: formData.city,
+        phone: formData.phone,
+        password: formData.password || '',
+      };
+      const res = await api.post('/users/update.php', payload);
+      // On rafraîchit le profil pour récupérer les données à jour.
+      await dispatch(fetchMe());
+      return res;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 export const logout = createAsyncThunk('auth/logout', async () => {
   try {
     await api.post('/auth/logout.php', {});
@@ -51,6 +81,7 @@ const initialState = {
   user: null,
   token: getToken() || null,
   status: 'idle',
+  updateStatus: 'idle',
   error: null,
 };
 
@@ -59,9 +90,13 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     clearError(state) { state.error = null; },
+    clearUpdateStatus(state) { state.updateStatus = 'idle'; state.error = null; },
   },
   extraReducers: (builder) => {
     builder
+      .addCase(updateProfile.pending, (state) => { state.updateStatus = 'loading'; state.error = null; })
+      .addCase(updateProfile.fulfilled, (state) => { state.updateStatus = 'succeeded'; })
+      .addCase(updateProfile.rejected, (state, action) => { state.updateStatus = 'failed'; state.error = action.payload; })
       .addCase(register.pending, (state) => { state.status = 'loading'; state.error = null; })
       .addCase(register.fulfilled, (state) => { state.status = 'succeeded'; })
       .addCase(register.rejected, (state, action) => { state.status = 'failed'; state.error = action.payload; })
@@ -78,7 +113,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, clearUpdateStatus } = authSlice.actions;
 
 export const selectAuth = (state) => state.auth;
 export const selectIsAuthenticated = (state) => Boolean(state.auth.token);

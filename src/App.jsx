@@ -9,6 +9,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ContactPage from './pages/ContactPage';
 import DashboardPage from './pages/DashboardPage';
+import EditProfilePage from './pages/EditProfilePage';
 import PremiumPage from './pages/PremiumPage';
 import MySkillPage from './pages/MySkillPage';
 import ContactsPage from './pages/ContactsPage';
@@ -32,6 +33,7 @@ export default function App() {
         {/* Routes privées */}
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/profile/edit" element={<EditProfilePage />} />
           <Route path="/premium" element={<PremiumPage />} />
 
           {/* Événements : listing & détail accessibles à tous les connectés */}
